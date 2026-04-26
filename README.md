@@ -13,6 +13,23 @@ Foi utilizado o [SMS Spam Collection Dataset](!https://archive.ics.uci.edu/datas
 
 A coleção possui um total de 5.574 mensagens, onde 4.827 (86,6%) são mensagens legítimas e 747 (13,4%) são mensagens de spam.
 
+# Estrutura do Projeto
+
+```
+.
+├── data/
+│   └── SMSSpamCollection                       # Base de dados original
+├── src/
+│   ├── preprocessing.py                        # Limpeza e normalização (TF-IDF)
+│   ├── logistic_regression_iterative.py        # Implementação regressão logística iterativa
+│   ├── logistic_regression_vectorized.py       # Implementação regressão logística vetorizada
+│   └── run_experiments.py                      # Script principal de experimentação
+├── main.py                                     # Centraliza o fluxo de execução
+├── .gitignore        
+├── requirements.txt                
+└── README.md
+```
+
 # Tecnologias
 O projeto foi desenvolvido em Python utilizando as seguintes bibliotecas:
 
@@ -25,17 +42,3 @@ O projeto foi desenvolvido em Python utilizando as seguintes bibliotecas:
 ```Pandas```: Manipulação e carregamento do dataset.
 
 ```Matplotlib/Seaborn```: Geração de gráficos comparativos.
-
-```
-.
-├── data/
-│   └── SMSSpamCollection                       # Base de dados original
-├── src/
-│   ├── preprocessing.py                        # Limpeza e normalização (TF-IDF)
-│   ├── logistic_regression_iterative.py        # Implementação regressão logística iterativa
-│   ├── logistic_regression_iterative.py        # Implementação regressão logística vetorizada
-│   └── run_experiments.py                      # Script principal de experimentação
-├── .gitignore        
-├── requirements.txt                
-└── README.md
-```
