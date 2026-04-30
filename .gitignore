@@ -1,2 +1,3 @@
 data/spam.csv
 .gitignore
+src/__pycache__
