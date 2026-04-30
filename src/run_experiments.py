@@ -10,10 +10,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer # pip install scikit
 from sklearn.model_selection import train_test_split
 
 import logistic_regression_iterative as iter
-import logistic_regression_vect as vect
+import logistic_regression_vectorized as vect
 
 # Esta variável define quantas épocas o algoritmo percorrerá por experimento
-fixed_num_iterations = 1000
+fixed_num_iterations = 25
 
 # Define o caminho do arquivo CSV no Google Drive
 csv_file_path = '/content/drive/My Drive/dataset/spam.csv'
