@@ -52,12 +52,14 @@ O projeto foi desenvolvido em Python utilizando as seguintes bibliotecas:
    git clone https://github.com/debora-oliv/SMS_Spam_Classification.git
    ```
 
-**2. Instale as dependências:**
+**2. Faça o download do [dataset](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) e adicone-o em ./data**
+
+**3. Instale as dependências:**
    ```bash
    pip install -r requirements.txt
    ```
 
-**3. Execute o orquestrador:**
+**4. Execute o orquestrador:**
    ```bash
    python main.py
    ```
@@ -77,12 +79,14 @@ O projeto foi desenvolvido em Python utilizando as seguintes bibliotecas:
    os.chdir('nome-do-repositorio')
    ```
 
-**5. Instale as dependências do projeto:**
+**5. Faça o download do [dataset](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) e adicone-o em ./data**
+
+**6. Instale as dependências do projeto:**
    ```bash
    !pip install -r requirements.txt
    ```
 
-**6. Execute o script principal:**
+**7. Execute o script principal:**
    ```bash
    !python main.py
    ```
