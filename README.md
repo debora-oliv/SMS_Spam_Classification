@@ -90,4 +90,17 @@ O projeto foi desenvolvido em Python utilizando as seguintes bibliotecas:
   *Os gráficos gerados aparecerão na aba de "Arquivos" na barra lateral esquerda do Colab, podendo ser visualizados e baixados.*
 
 
+# Alguns Resultados Obtidos
 
+### Evolução do Speedup conforme número de amostras
+
+Verificou-se que a implementação vetorizada foi consistentemente
+mais rápida que a não vetorizada. No entanto, não foi identificado um padrão consistente de crescimento do speedup ao longo dos experimentos ou, entre os diferentes números de amostras, épocas e ambientes de execução utilizados. 
+
+![Teste com 25 iterações (Ambiente Local)](./evolucao_speedup_vscode_4.png.png)
+
+![Teste com 25 iterações (Google Colab)](./evolucao_speedup_amostras(COLAB)(1).png)
+
+![Teste com 1000 iterações (Ambiente Local)](./evolucao_speedup_vscode_5_(1000%20iterations).png)
+
+![Teste com 25 iterações e maior número de experimentos (Ambiente Local)](./large_sample_speedup_vscode.png)

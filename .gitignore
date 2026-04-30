@@ -1,5 +1,6 @@
 venv/
 src/__pycache__
 data/*.csv
-*.png
+evolucao_speedup_amostras.png
+grafico_comparativo_experimentos.png
 *.pdf
