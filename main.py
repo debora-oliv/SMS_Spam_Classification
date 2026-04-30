@@ -1,15 +1,13 @@
+import sys
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 from src.preprocessing import text_processing
-
-# Cloquei algumas coisas entre colchetes [] indicando que são nomes hipotéticos, vcs podem alterar conforme preferirem na hora de implementar
-# Maass, se seguirem esses nomes, já facilita porque no fim basta descomentar tudo sem precisar alterar nome de função/variável :)
-
-# from src.logistic_regression_iterative import [regressao_logistica_iterativa]
-# from src.logistic_regression_vectorized import [regressao_logistica_vetorizada]
-# from src.run_experiments import *
+from src.logistic_regression_vectorized import model as v_model
+from src.logistic_regression_iterative import model as nonv_model
+from src.run_experiments import print_env_info, run_all_experiments, run_speedup_vs_samples
 
 def main():
     """
@@ -31,47 +29,70 @@ def main():
        de características. O modelo TF-IDF é ajustado (fit) exclusivamente nos dados 
        de treino, transformando posteriormente os dados de treino e de teste.
        
-    4. Treino e Otimização: Inicializa as classes de Regressão Logística
-       e regista os tempos de convergência.
+    4. Adaptação Dimensional: Transpõe as matrizes geradas para o formato 
+       algébrico esperado pelas implementações do modelo (Atributos x Amostras).
        
-    5. Avaliação de Resultados: Processa as métricas 
-       de custo, calcula o ganho de desempenho (Speedup) e plota os gráficos comparativos.
+    5. Treinamento e Avaliação: Executa a bateria de testes comparativos entre
+       os algoritmos iterativo e vetorizado, extraindo tempos de execução, custo e speedup.
 
     Returns:
         None. A função orquestra o processo e imprime/exporta os resultados diretamente.
     """
-    # --- ETAPA 1 ---
-    df = pd.read_csv('data/SMSSpamCollection', sep='\t', names=["label", "message"])
+    print_env_info()
 
+    # --- ETAPA 1: Carregamento e Tratamento ---
+    try:
+        df = pd.read_csv('data/SMSSpamCollection', sep='\t', names=["label", "message"])
+    except FileNotFoundError:
+        print("\nERRO CRÍTICO: Arquivo 'SMSSpamCollection' não encontrado na pasta 'data/'.")
+        print("Por favor, baixe o dataset e insira-o no diretório correspondente antes de executar o script.")
+        sys.exit(1)
+
+    # Tratamento de valores nulos e Label Encoding
+    df = df.dropna()
     df['label'] = df['label'].map({'ham': 0, 'spam': 1})
     
+    # Pré-processamento
     df['cleaned_message'] = df['message'].apply(text_processing)
 
-    # --- ETAPA 2 ---
-    X_text_train, X_text_test, Y_train, Y_test = train_test_split(
+    # --- ETAPA 2: Divisão dos Dados (Train/Test Split) ---
+    X_text_train, X_text_test, Y_train_orig, Y_test_orig = train_test_split(
         df['cleaned_message'], 
         df['label'].values, 
         test_size=0.20, 
         random_state=42
     )
 
-    # --- ETAPA 3 ---
-    vectorizer = TfidfVectorizer()
+    # --- ETAPA 3: Vetorização Matemática (Zero Data Leakage) ---
+    vectorizer = TfidfVectorizer(max_features=5000)
     
-    X_train_matrix = vectorizer.fit_transform(X_text_train)
-    
-    X_test_matrix = vectorizer.transform(X_text_test)
+    X_train_tfidf = vectorizer.fit_transform(X_text_train)
+    X_test_tfidf = vectorizer.transform(X_text_test)
 
-    # --- ETAPA 4 ---
+    # --- ETAPA 4: Adaptação Dimensional (Transposição) ---
+    # O modelo matemático exige (atributos, amostras), mas o Scikit-Learn retorna (amostras, atributos)
+    X_train_processed = X_train_tfidf.T.toarray()
+    X_test_processed = X_test_tfidf.T.toarray()
     
-    # modelo_iterativo = [regressao_logistica_iterativa](learning_rate=0.01, epochs=1000)
-    # tempo_iterativo = modelo_iterativo.fit_and_time(X_train_matrix, Y_train)
+    # Adaptando o formato do vetor alvo Y para (1, amostras)
+    y_train_processed = Y_train_orig.reshape(1, -1)
+    y_test_processed = Y_test_orig.reshape(1, -1)
+
+    # --- ETAPA 5: Bateria de Experimentos Comparativos ---
+    print("5. Iniciando a bateria de experimentos...")
     
-    # modelo_vetorizado = [regressao_logistica_vetorizada](learning_rate=0.01, epochs=1000)
-    # tempo_vetorizado = modelo_vetorizado.fit_and_time(X_train_matrix, Y_train)
+    run_all_experiments(
+        v_model, nonv_model, 
+        X_train_processed, y_train_processed, 
+        X_test_processed, y_test_processed
+    )
 
-    # --- ETAPA 5 ---
 
+    run_speedup_vs_samples(
+        v_model, nonv_model, 
+        X_train_processed, y_train_processed, 
+        X_test_processed, y_test_processed
+    )
 
 if __name__ == "__main__":
     main()
