@@ -1,11 +1,10 @@
+import time
 import numpy as np
 
 def sigmoid(z):
-    # Função de ativação que mapeia qualquer valor para o intervalo entre 0 e 1
     return 1 / (1 + np.exp(-z))
 
 def initialize_with_zeros(dim):
-    # Cria pesos (w) como zeros e viés (b) como zero para começar o treino
     w = np.zeros((dim, 1))
     b = 0
     return w, b
@@ -27,13 +26,13 @@ def propagate(w, b, X, Y):
         # Forward Propagation
         z_i = np.dot(w.T, X[:, i].reshape(-1, 1)) + b
         a_i = sigmoid(z_i)
-        # Correção: Converta a_i para um escalar explicitamente
-        A_values[0, i] = a_i.item() # Ou a_i[0]
+
+        A_values[0, i] = a_i.item()
 
         # Cálculo do Custo
         cost += Y[0, i] * np.log(a_i) + (1 - Y[0, i]) * np.log(1 - a_i)
 
-        # Backward Propagation (gradientes para um único exemplo)
+        # Backward Propagation
         dz_i = a_i - Y[0, i]
         dw += X[:, i].reshape(-1, 1) * dz_i
         db += dz_i

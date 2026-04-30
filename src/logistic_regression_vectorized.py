@@ -1,0 +1,68 @@
+import time
+import numpy as np
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+def initialize_with_zeros(dim):
+    w = np.zeros((dim, 1))
+    b = 0
+    return w, b
+
+v_cost_final = 0.0 # Váriavel que armazena custo para fins de comparação entre implementações
+
+def v_propagate(w, b, X, Y):
+    m = X.shape[1] # número de exemplos
+
+    # Forward Propagation
+    Z = np.dot(w.T, X) + b
+    A = sigmoid(Z)
+
+    # Cálculo do Custo
+    cost = -1/m * (np.sum(Y*np.log(A) + (1 - Y)*np.log(1 - A)))
+
+    # Backward Propagation
+    dw = 1/m * np.dot(X, (A - Y).T)
+    db = 1/m * np.sum(A - Y)
+
+    return {"dw": dw, "db": db}, np.squeeze(cost)
+
+def v_optimize(w, b, X, Y, num_iterations, learning_rate, print_cost=False):
+    costs = []
+    start_optimization_time = time.time()
+
+    # Loop de treinamento (Gradiente Descendente)
+    for i in range(num_iterations):
+        grads, cost = v_propagate(w, b, X, Y)
+
+        # Atualiza os pesos e o viés subtraindo o gradiente * taxa de aprendizado
+        w = w - learning_rate * grads["dw"]
+        b = b - learning_rate * grads["db"]
+
+        if i % 100 == 0:
+            costs.append(cost)
+
+    return {"w": w, "b": b}, costs, time.time() - start_optimization_time
+
+def v_predict(w, b, X):
+    # Faz a previsão final: se a probabilidade for > 0.5, classifica como 1 (spam)
+    m = X.shape[1]
+    A = sigmoid(np.dot(w.reshape(X.shape[0], 1).T, X) + b)
+    Y_prediction = np.zeros((1, m))
+    Y_prediction[A > 0.5] = 1
+    return Y_prediction
+
+def v_model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0.01, print_cost=False):
+    # Função principal que junta inicialização, otimização e predição
+    w, b = initialize_with_zeros(X_train.shape[0])
+    params, costs, total_time = v_optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)
+
+    # Calcula acurácia comparando as previsões com os rótulos reais
+    Y_prediction_test = v_predict(params["w"], params["b"], X_test)
+    Y_prediction_train = v_predict(params["w"], params["b"], X_train)
+
+    train_acc = 100 - np.mean(np.abs(Y_prediction_train - Y_train)) * 100
+    test_acc = 100 - np.mean(np.abs(Y_prediction_test - Y_test)) * 100
+
+
+    return {"costs": costs, "train_acc": train_acc, "test_acc": test_acc, "total_optimization_time": total_time}
