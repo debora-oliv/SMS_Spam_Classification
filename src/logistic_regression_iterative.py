@@ -9,7 +9,9 @@ def initialize_with_zeros(dim):
     b = 0
     return w, b
 
-def nonv_propagate(w, b, X, Y):
+import time
+
+def propagate(w, b, X, Y):
     # m é o número de exemplos
     m = X.shape[1] # Número de exemplos
     num_features = X.shape[0]
@@ -45,14 +47,14 @@ def nonv_propagate(w, b, X, Y):
 
     return grads, cost
 
-def nonv_optimize(w, b, X, Y, num_iterations, learning_rate, print_cost=False):
+def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost=False):
 
     costs = []
     start_optimization_time = time.time()
 
     for i in range(num_iterations):
         # Calcula o custo e o gradiente usando a função de propagação não vetorizada
-        grads, cost = nonv_propagate(w, b, X, Y)
+        grads, cost = propagate(w, b, X, Y)
 
         # Recupera os gradientes
         dw = grads["dw"]
@@ -73,7 +75,7 @@ def nonv_optimize(w, b, X, Y, num_iterations, learning_rate, print_cost=False):
 
     return params, costs, total_optimization_time
 
-def nonv_predict(w, b, X):
+def predict(w, b, X):
 
     # Faz a previsão final: se a probabilidade for > 0.5, classifica como 1 (spam)
     m = X.shape[1]
@@ -87,14 +89,14 @@ def nonv_predict(w, b, X):
 
     return Y_prediction
 
-def nonv_model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0.01, print_cost=False):
+def model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0.01, print_cost=False):
     # Função principal que junta inicialização, otimização e predição
     w, b = initialize_with_zeros(X_train.shape[0])
-    params, costs, total_time = nonv_optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)
+    params, costs, total_time = optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)
 
     # Calcula acurácia comparando as previsões com os rótulos reais
-    Y_prediction_test = nonv_predict(params["w"], params["b"], X_test)
-    Y_prediction_train = nonv_predict(params["w"], params["b"], X_train)
+    Y_prediction_test = predict(params["w"], params["b"], X_test)
+    Y_prediction_train = predict(params["w"], params["b"], X_train)
 
     train_acc = 100 - np.mean(np.abs(Y_prediction_train - Y_train)) * 100
     test_acc = 100 - np.mean(np.abs(Y_prediction_test - Y_test)) * 100
