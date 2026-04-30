@@ -1,6 +1,7 @@
-numpy==2.0.2
+numpy
 pandas
 scikit-learn
 nltk
 matplotlib
 psutil
+prettytable

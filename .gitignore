@@ -1,1 +1,5 @@
-data/SMSSpamCollection
+venv/
+src/__pycache__
+data/*.csv
+*.png
+*.pdf
