@@ -1,0 +1,6 @@
+numpy==2.0.2
+pandas
+scikit-learn
+nltk
+matplotlib
+psutil
