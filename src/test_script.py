@@ -109,3 +109,55 @@ print(f"Rodando {num_experiments} experimentos (NÃO-VETORIZADA)...\n")
 nonv_times, nonv_train_accuracies, nonv_test_accuracies, nonv_cost_final = run_model_by_dataset(iter.model, num_experiments, X_train_processed, y_train_processed)
 
 
+##########################################
+########       RESULTADOS      ###########
+##########################################
+
+##### RESUMO PRINCIPAL #####
+
+# 1. Calculando as métricas para a implementação Não-Vetorizada
+mean_nonv = np.mean(nonv_times)
+std_nonv = np.std(nonv_times)
+
+# 2. Calculando as métricas para a implementação Vetorizada
+mean_v = np.mean(v_times)
+std_v = np.std(v_times)
+
+# Sepeedup Médio
+speedup = mean_nonv / mean_v
+
+# Cálculo do speedup de cada experimento
+speedups_individuais = []
+for i in range(len(v_times)):
+  speedups_individuais.append(nonv_times[i] / v_times[i])
+
+
+print("\n" +"="* 35)
+print("      Resumo dos Experimentos      ")
+print("=" * 35)
+
+print("\nIMPLEMENTAÇÃO VETORIZADA:")
+print("-" * 35)
+print(f"\nTempo Médio de Otimização: {mean_v:.4f} segundos")
+print(f"Tempo Desvio Padrao de Tempo por Implementação : {std_v:.4f} segundos")
+print(f"Acurácia Média de Treino: {np.mean(v_train_accuracies):.2f} %")
+print(f"Acurácia Média de Teste: {np.mean(v_test_accuracies):.2f} %")
+
+print("\nIMPLEMENTAÇÃO NÃO-VETORIZADA:")
+print("-" * 35)
+print(f"\nTempo Médio de Otimização: {mean_nonv:.4f} segundos")
+print(f"Tempo Desvio Padrao de Tempo por Implementação : {std_nonv:.4f} segundos")
+print(f"Acurácia Média de Treino: {np.mean(nonv_train_accuracies):.2f} %")
+print(f"Acurácia Média de Teste: {np.mean(nonv_test_accuracies):.2f} %")
+
+print("\nDADOS SPEEDUP:")
+print("-" * 35)
+
+print(f"\nSpeedup: {speedup:.2f}x")
+print(f"Desvio padrão dos Speedups: ± {np.std(speedups_individuais):.2f}x")
+
+print("\nCOMPARAÇÃO DOS CUSTOS (J):")
+print("-" * 35)
+
+print(f"\nCusto (J) NV: {nonv_cost_final}")
+print(f"Custo (J) V: {v_cost_final}")
