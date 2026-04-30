@@ -13,7 +13,7 @@ import logistic_regression_iterative as iter
 import logistic_regression_vect as vect
 
 # Esta variável define quantas épocas o algoritmo percorrerá por experimento
-fixed_num_iterations = 50
+fixed_num_iterations = 1000
 
 # Define o caminho do arquivo CSV no Google Drive
 csv_file_path = '/content/drive/My Drive/dataset/spam.csv'
@@ -271,7 +271,7 @@ print("\n")
 #################################################
 
 
-tamanhos_m = [100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4457]
+tamanhos_m = range(500, 4457, 500)
 speedup_outcomes = []
 nonv_times = []
 v_times = []
@@ -329,14 +329,16 @@ plt.plot(tamanhos_m, speedup_outcomes, marker='o', linestyle='-', color='darkgre
 
 # Estilização do gráfico
 plt.title('Evolução do Speedup vs. Tamanho das Amostras (m)', fontsize=14, weight='bold')
-plt.xlabel('Número de Amostras (m)', fontsize=12)
-plt.ylabel('Speedup (x vezes mais rápido)', fontsize=12)
+plt.xlabel('Número de Amostras (m)', fontsize=12, weight='bold')
+plt.ylabel('Speedup (x vezes mais rápido)', fontsize=12, weight='bold')
 plt.grid(True, which='both', linestyle='--', alpha=0.5)
 
 # Adicionando anotações de texto nos pontos para facilitar a leitura
 for i, txt in enumerate(speedup_outcomes):
     plt.annotate(f"{txt:.1f}x", (tamanhos_m[i], speedup_outcomes[i]), 
                  textcoords="offset points", xytext=(0,10), ha='center', fontsize=9)
+    
+plt.figtext(0.5, 0.01, f'Épocas por experimento: {fixed_num_iterations}', ha='center', fontsize=9)
 
 plt.tight_layout()
 plt.savefig('evolucao_speedup_amostras.png')
