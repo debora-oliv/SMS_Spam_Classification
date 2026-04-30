@@ -1,10 +1,8 @@
 # Sobre o Projeto 
-
 O principal objetivo é analisar a complexidade computacional e o ganho de desempenho ao utilizar operações vetorizadas em comparação com uma abordagem iterativa tradicional (processar cada exemplo de treinamento individualmente utilizando
 laços for explícitos) no treinamento do modelo de Regressão Logística para classificação binária de mensagens SMS.
 
-# Base de Dados
-
+## Base de Dados
 Foi utilizado o [SMS Spam Collection Dataset](!https://archive.ics.uci.edu/dataset/228/sms+spam+collection), uma base de classificação binária que contém mensagens em inglês, categorizadas como:
 
 - ```Ham```: Mensagens legítimas.
@@ -13,7 +11,7 @@ Foi utilizado o [SMS Spam Collection Dataset](!https://archive.ics.uci.edu/datas
 
 A coleção possui um total de 5.574 mensagens, onde 4.827 (86,6%) são mensagens legítimas e 747 (13,4%) são mensagens de spam.
 
-# Tecnologias
+## Tecnologias
 O projeto foi desenvolvido em Python utilizando as seguintes bibliotecas:
 
 ```NLTK```: Pré-processamento de texto (limpeza de stop words).
@@ -26,6 +24,7 @@ O projeto foi desenvolvido em Python utilizando as seguintes bibliotecas:
 
 ```Matplotlib/Seaborn```: Geração de gráficos comparativos.
 
+## Estrutura
 ```
 .
 ├── data/
@@ -33,9 +32,62 @@ O projeto foi desenvolvido em Python utilizando as seguintes bibliotecas:
 ├── src/
 │   ├── preprocessing.py                        # Limpeza e normalização (TF-IDF)
 │   ├── logistic_regression_iterative.py        # Implementação regressão logística iterativa
-│   ├── logistic_regression_iterative.py        # Implementação regressão logística vetorizada
+│   ├── logistic_regression_vectorized.py       # Implementação regressão logística vetorizada
 │   └── run_experiments.py                      # Script principal de experimentação
+├── main.py                                     # Centraliza o fluxo de execução
 ├── .gitignore        
 ├── requirements.txt                
 └── README.md
 ```
+
+# Teste e Execução
+### Pré-Requisitos
+- Python 3.x
+- Git
+
+## Execução Local
+
+**1. Clone o repositório:**
+   ```bash
+   git clone https://github.com/debora-oliv/SMS_Spam_Classification.git
+   ```
+
+**2. Instale as dependências:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+**3. Execute o orquestrador:**
+   ```bash
+   python main.py
+   ```
+   
+## Execução via Google Colab
+**1. Abra o Google Colab.**
+
+**2. Crie um novo Notebook em branco.**
+
+**3. Em uma célula de código, baixe o repositório clonando-o diretamente do GitHub:**
+   ```bash
+   !git clone https://github.com/debora-oliv/SMS_Spam_Classification.git
+   ```
+**4. Mude o diretório de execução do Colab para dentro da pasta clonada:**
+   ```bash
+   import os
+   os.chdir('nome-do-repositorio')
+   ```
+
+**5. Instale as dependências do projeto:**
+   ```bash
+   !pip install -r requirements.txt
+   ```
+
+**6. Execute o script principal:**
+   ```bash
+   !python main.py
+   ```
+
+  *Os gráficos gerados aparecerão na aba de "Arquivos" na barra lateral esquerda do Colab, podendo ser visualizados e baixados.*
+
+
+
