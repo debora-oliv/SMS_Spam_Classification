@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 def sigmoid(z):
     # Função de ativação que mapeia qualquer valor para o intervalo entre 0 e 1
@@ -9,8 +10,6 @@ def initialize_with_zeros(dim):
     w = np.zeros((dim, 1))
     b = 0
     return w, b
-
-import time
 
 # Váriavel que armazena custo para fins de comparação entre implementações
 v_cost_final = 0.0
