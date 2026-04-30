@@ -24,13 +24,13 @@ def nonv_propagate(w, b, X, Y):
         # Forward Propagation
         z_i = np.dot(w.T, X[:, i].reshape(-1, 1)) + b
         a_i = sigmoid(z_i)
-        # Correção: Converta a_i para um escalar explicitamente
-        A_values[0, i] = a_i.item() # Ou a_i[0]
+
+        A_values[0, i] = a_i.item()
 
         # Cálculo do Custo
         cost += Y[0, i] * np.log(a_i) + (1 - Y[0, i]) * np.log(1 - a_i)
 
-        # Backward Propagation (gradientes para um único exemplo)
+        # Backward Propagation
         dz_i = a_i - Y[0, i]
         dw += X[:, i].reshape(-1, 1) * dz_i
         db += dz_i

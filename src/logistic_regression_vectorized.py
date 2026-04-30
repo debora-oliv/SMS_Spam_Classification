@@ -14,14 +14,14 @@ v_cost_final = 0.0 # Váriavel que armazena custo para fins de comparação entr
 def v_propagate(w, b, X, Y):
     m = X.shape[1] # número de exemplos
 
-    # Forward Propagation: calcula a previsão atual
+    # Forward Propagation
     Z = np.dot(w.T, X) + b
     A = sigmoid(Z)
 
-    # Calcula o 'Custo' (erro) usando Log Loss
+    # Cálculo do Custo
     cost = -1/m * (np.sum(Y*np.log(A) + (1 - Y)*np.log(1 - A)))
 
-    # Backward Propagation: calcula o gradiente (direção para ajustar os pesos)
+    # Backward Propagation
     dw = 1/m * np.dot(X, (A - Y).T)
     db = 1/m * np.sum(A - Y)
 
