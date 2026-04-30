@@ -1,3 +1,5 @@
 data/spam.csv
 .gitignore
 src/__pycache__
+grafico_comparativo_experimentos.png
+evolucao_speedup_amostras.png
