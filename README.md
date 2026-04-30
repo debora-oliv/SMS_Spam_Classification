@@ -92,15 +92,19 @@ O projeto foi desenvolvido em Python utilizando as seguintes bibliotecas:
 
 # Alguns Resultados Obtidos
 
-### Evolução do Speedup conforme número de amostras
+## Evolução do Speedup conforme número de amostras
 
 Verificou-se que a implementação vetorizada foi consistentemente
 mais rápida que a não vetorizada. No entanto, não foi identificado um padrão consistente de crescimento do speedup ao longo dos experimentos ou, entre os diferentes números de amostras, épocas e ambientes de execução utilizados. 
 
+### Teste com 25 iterações (Ambiente Local)
 ![Teste com 25 iterações (Ambiente Local)](./results/evolucao_speedup_vscode_4.png)
 
+### Teste com 25 iterações (Google Colab)
 ![Teste com 25 iterações (Google Colab)](./results/evolucao_speedup_amostras(COLAB)(1).png)
 
+### Teste com 1000 iterações (Ambiente Local)
 ![Teste com 1000 iterações (Ambiente Local)](./results/evolucao_speedup_vscode_5_1000_iterations.png)
 
+### Teste com 25 iterações e maior número de experimentos (Ambiente Local)
 ![Teste com 25 iterações e maior número de experimentos (Ambiente Local)](./results/large_sample_speedup_vscode.png)
